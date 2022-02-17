@@ -9,14 +9,7 @@ const Direction = {
 const canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
-var player = {
-  color: 'red',
-  x: 100,
-  y: 100,
-  s: 5
-}
-
-var allPlayers = [];
+var players = [];
 
 var dir = Direction.Up;
 
@@ -32,55 +25,9 @@ document.onkeydown = (e) => {
       dir = Direction.Left;
 }
 
-function getRandomInt(max) {
-  const x = Math.floor(Math.random() * max)
-  return x;
-}
-
-// const update = () => {
-
-//   if (player.x + player.s == 501) {
-//     player.x--;
-//     dir = getRandomInt(2) == 0 ? Direction.Up : Direction.Down;
-//   }
-
-//   if (player.x == -1) {
-//     player.x++;
-//     dir = getRandomInt(2) == 0 ? Direction.Up : Direction.Down;
-//   }
-
-//   if (player.y + player.s == 501) {
-//     player.y--;
-//     dir = getRandomInt(2) == 0 ? Direction.Left : Direction.Right;
-//   }
-
-//   if (player.y < 0) {
-//     player.y++;
-//     dir = getRandomInt(2) == 0 ? Direction.Left : Direction.Right;
-//   }
-
-//   switch(dir) {
-//     case Direction.Up:
-//       player.y--;
-//       break;
-//     case Direction.Right:
-//       player.x++;
-//       break;
-//     case Direction.Down:
-//       player.y++;
-//       break;
-//     case Direction.Left:
-//       player.x--;
-//       break;
-//     default:
-//       throw Error("Invalid direction on player update.");
-//   }
-// }
-
 const draw = () => {
   ctx.clearRect(0, 0, 500, 500);
-  for(var player of allPlayers) {
-    console.log(player);
+  for(var player of players) {
     ctx.fillStyle = player.color;
     ctx.fillRect(player.x, player.y, player.s, player.s);
   }
@@ -96,20 +43,13 @@ const gameLoop = () => {
 
 window.requestAnimationFrame(gameLoop);
 
+const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
 // server connect
 const socket = io();
 
-socket.emit('join', { color: player.color });
+socket.emit('join', { color: randomColor() });
 
-socket.on('update', (players) => {
-  allPlayers = players;
-})
-
-// TODO: figure out how to remove player on exit ? 
-window.onbeforeunload = () => {
-  socket.emit('exit');
-}
-
-window.addEventListener('beforeunload', function (e) {
-  socket.emit('exit');
+socket.on('update', (serverPlayers) => {
+  console.log(players);
+  players = serverPlayers;
 });
