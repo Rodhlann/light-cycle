@@ -1,0 +1,20 @@
+{
+  "name": "js_game",
+  "version": "1.0.0",
+  "description": "Simple Networking Experiment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index"
+  },
+  "author": "Tim Pepper",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "moment": "^2.29.1",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
