@@ -20,7 +20,6 @@ const loop = () => {
     updatePlayerLocation(player);
   }
   if (players.length) {
-    console.log(`outgoing: ${players[0].dir}`)
     state.io.sockets.emit('update_all', players);
   }
 

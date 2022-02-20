@@ -9,6 +9,12 @@ const {
 } = require('./helper/playerHandler');
 const loop = require('./helper/gameLoop');
 const state  = require('./helper/state');
+const {
+  TICK_RATE,
+  PLAY_AREA_W,
+  PLAY_AREA_H,
+  DIRECTION
+} = require('./helper/constants');
 
 const app = express();
 const server = http.createServer(app);
@@ -20,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // listen for new clients (sub)
 io.on('connection', socket => {
+  socket.emit('config', { TICK_RATE, PLAY_AREA_W, PLAY_AREA_H, DIRECTION });
+
   socket.on('join', ({ dir, color }) => {
     const player = newPlayer(socket.id, dir, color);
     console.log(`New player: ${player.id}`);
@@ -37,7 +45,6 @@ io.on('connection', socket => {
   socket.on('update', (dir) => {
     const player = getPlayer(socket.id);
     if (player) {
-      console.log(`incoming: ${dir}`);
       player.dir = dir;
     }
   });

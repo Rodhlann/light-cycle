@@ -1,4 +1,4 @@
-const TICK_RATE = 30;
+const TICK_RATE = 60;
 
 const PLAY_AREA_W = 500;
 const PLAY_AREA_H = 500;

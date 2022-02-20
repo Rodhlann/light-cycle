@@ -7,7 +7,7 @@ function getRandomInt(max) {
 
 const updatePlayerLocation = (player) => {
   if (player.x + player.s == PLAY_AREA_W + 1) {
-    player.x-=5;
+    player.x--;
     player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
   }
 
