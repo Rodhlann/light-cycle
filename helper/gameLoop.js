@@ -1,6 +1,5 @@
 const updatePlayerLocation = require('./movement');
 const { TICK_RATE } = require('./constants');
-const { getPlayers } = require('./playerHandler');
 const state = require('./state');
 
 const hrtimeMs = () => {
@@ -16,12 +15,13 @@ const loop = () => {
   setTimeout(loop, tickLengthMs);
   let now = hrtimeMs();
 
-  const players = getPlayers();
+  const players = state.players;
   for (const player of players) {
     updatePlayerLocation(player);
   }
   if (players.length) {
-    state.io.sockets.emit('update', players);
+    console.log(`outgoing: ${players[0].dir}`)
+    state.io.sockets.emit('update_all', players);
   }
 
   previous = now;

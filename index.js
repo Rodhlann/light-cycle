@@ -20,26 +20,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // listen for new clients (sub)
 io.on('connection', socket => {
-  socket.on('join', ({ color }) => {
-    const player = newPlayer(socket.id, color);
+  socket.on('join', ({ dir, color }) => {
+    const player = newPlayer(socket.id, dir, color);
     console.log(`New player: ${player.id}`);
+
+    if (!state.started) {
+      loop();
+      state.started = true;
+    }
   });
 
   socket.on('disconnect', () => {
     playerExit(socket.id);
   })
 
-  socket.on('update', ({ dir }) => {
+  socket.on('update', (dir) => {
     const player = getPlayer(socket.id);
     if (player) {
+      console.log(`incoming: ${dir}`);
       player.dir = dir;
     }
   });
-
-  if (!state.started) {
-    loop();
-    state.started = true;
-  }
 });
 
 const PORT = process.env.PORT || 3000;

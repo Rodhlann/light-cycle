@@ -6,31 +6,27 @@ function getRandomInt(max) {
 }
 
 const updatePlayerLocation = (player) => {
-  // console.log(player);
-
-  var dir = player.dir; 
-
   if (player.x + player.s == PLAY_AREA_W + 1) {
     player.x-=5;
-    dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
+    player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
   }
 
   if (player.x == -1) {
     player.x++;
-    dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
+    player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
   }
 
   if (player.y + player.s == PLAY_AREA_H + 1) {
     player.y--;
-    dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
+    player.dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
   }
 
-  if (player.y < 0) {
+  if (player.y == -1) {
     player.y++;
-    dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
+    player.dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
   }
 
-  switch(dir) {
+  switch(player.dir) {
     case DIRECTION.Up:
       player.y--;
       break;

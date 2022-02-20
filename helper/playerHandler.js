@@ -1,9 +1,10 @@
 const state = require('./state');
 const { PLAYER_TEMPLATE } = require('./constants');
 
-const newPlayer = (id, color) => {
+const newPlayer = (id, dir, color) => {
   const player = {
-    id, 
+    id,
+    dir,
     x: PLAYER_TEMPLATE.x, 
     y: PLAYER_TEMPLATE.y, 
     s: PLAYER_TEMPLATE.s, 
@@ -27,13 +28,8 @@ const getPlayer = (id) => {
   return state.players[index];
 }
 
-const getPlayers = () => {
-  return state.players;
-}
-
 module.exports = {
   newPlayer,
   playerExit,
-  getPlayer,
-  getPlayers
+  getPlayer
 };
