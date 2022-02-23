@@ -28,8 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection', socket => {
   socket.emit('config', { TICK_RATE, PLAY_AREA_W, PLAY_AREA_H, DIRECTION });
 
-  socket.on('join', ({ color }) => {
-    const player = newPlayer(socket.id, color);
+  socket.on('join', () => {
+    const player = newPlayer(socket.id);
     console.log(`New player: ${player.id}`);
 
     if (!state.started) {

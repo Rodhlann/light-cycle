@@ -1,9 +1,12 @@
 [x] Figure out Server / Client framerate
-2. Figure out if I can just load game loop logic from server on client connect
-3. Build LightCycle logic 
-  [x] Track previous location in Player objects so I don't have to transmit separately?
-  [ ] Collision detection....
-  [ ] Fix issue where players are no longer controllable separately ? 
-4. Styles?
-  [ ] Tron-ify 
-  [ ] Client side game over animation? 
+[ ] Figure out if I can just load game loop logic from server on client connect
+[ ] Build LightCycle logic 
+    [x] Track previous location in Player objects so I don't have to transmit separately?
+    [ ] Collision detection....
+        [x] Wall Collision
+        [ ] Player Collision
+    [x] Fix issue where players are no longer controllable separately ? 
+[ ] Styles?
+    [ ] Tron-ify 
+    [ ] Client side game over animation? 
+    [ ] Modal for start / game over?

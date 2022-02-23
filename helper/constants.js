@@ -10,6 +10,15 @@ const DIRECTION = {
   Right: 'Right'
 };
 
+const COLORS = [
+  'red',
+  'blue',
+  'orange',
+  'purple',
+  'green',
+  'yellow'
+];
+
 const STARTING_STATES = [
   { x: 100, y: 100, dir: DIRECTION.Right},
   { x: 200, y: 200, dir: DIRECTION.Down},
@@ -37,5 +46,6 @@ module.exports = {
   DIRECTION,
   PLAYER_TEMPLATE,
   STARTING_STATES,
-  USED_STATES
+  USED_STATES,
+  COLORS
 }

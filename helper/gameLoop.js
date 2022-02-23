@@ -31,28 +31,24 @@ const calculateFps = (previous) => {
   }
 }
 
-let tick = 0;
 let previous = Date.now();
 let tickLengthMs = 1000 / TICK_RATE;
 
 const loop = () => {
-  if (gameOver()) return;
-
-  setTimeout(loop, tickLengthMs);
-
   const players = state.players;
-  // detectPlayerCollision();
+  detectPlayerCollision();
   for (const player of players) {
     updatePlayerLocation(player);
   }
-  if (players.length) {
-    state.io.sockets.emit('update_all', players);
-  }
+
+  state.io.sockets.emit('update_all', players);
 
   calculateFps(previous);
 
+  if (gameOver()) return;
+  setTimeout(loop, tickLengthMs);
+
   previous = Date.now();
-  tick++;
 }
 
 module.exports = loop;

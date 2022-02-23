@@ -62,7 +62,7 @@ socket.on('config', (config) => {
   var lastDir = randomDir;
   var dir = lastDir;
 
-  document.onkeydown = (e) => {
+  document.onkeydown = (e) => { // TODO: Fix issue where sometimes perpendicular input direction isn't respected immediately after start
     const key = e.key.toLowerCase();
     if (key == 'w' && dir != Direction.Down && player.y != 0)
       dir = Direction.Up;
@@ -80,6 +80,7 @@ socket.on('config', (config) => {
   }
 
   const draw = () => {
+    // TODO: If no players make game over / game start modal? 
     ctx.clearRect(0, 0, CanvasW, CanvasH);
     for(var player of players) {
       ctx.fillStyle = player.color;
@@ -90,9 +91,7 @@ socket.on('config', (config) => {
     drawDebugContent();
   }
 
-  const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-  var session = socket.emit('join', { color: randomColor() });
+  var session = socket.emit('join');
 
   socket.on('update_all', (serverPlayers) => {
     players = serverPlayers;
@@ -103,20 +102,20 @@ socket.on('config', (config) => {
 
   /* game loop */
   const TICK_RATE = TickRate;
-  let tick = 0;
   let previous = Date.now();
   let tickLengthMs = 1000 / TICK_RATE;
 
-  const loop = () => {
+  const loop = () => {    
     resetDebugContent();
-    setTimeout(loop, tickLengthMs);    
 
     var delta  = (Date.now() - previous)/1000;
     calculateFps(1/delta);
+
     draw();
 
+    setTimeout(loop, tickLengthMs);    
+
     previous = Date.now();
-    tick++;
   }
 
   loop();

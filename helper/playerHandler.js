@@ -2,12 +2,14 @@ const state = require('./state');
 const { 
   PLAYER_TEMPLATE ,
   STARTING_STATES,
+  COLORS
 } = require('./constants');
 const { players } = require('./state');
 
-const newPlayer = (id, color) => {
+const newPlayer = (id) => {
   const startState = STARTING_STATES.splice(
     [Math.floor(Math.random()*STARTING_STATES.length)], 1)[0];
+  const color = COLORS[Math.floor(Math.random()*COLORS.length)];
 
   const player = {
     id,
@@ -25,8 +27,8 @@ const newPlayer = (id, color) => {
   return player;
 }
 
-const removePlayer = (id) => {
-  var index = state.players.findIndex(player => player.id === id);
+const removePlayer = (player) => {
+  var index = state.players.findIndex(p => p.id === player.id);
   var player = players.splice(index, 1)[0];
   if (player) {
     STARTING_STATES.push(player.start);
@@ -35,7 +37,10 @@ const removePlayer = (id) => {
 
 const playerExit = (id) => {
     console.log(`Player ${id} has left.`)
-    removePlayer(id);
+    var player = state.players.filter(player => player.id === id)[0];
+    if (player) { // TODO: If player refreshes / leaves after they lose they won't be in the list
+      removePlayer(player);
+    }
 }
 
 const getPlayer = (id) => {
