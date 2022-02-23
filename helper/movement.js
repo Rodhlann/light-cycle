@@ -1,36 +1,42 @@
-const { PLAY_AREA_H, PLAY_AREA_W, DIRECTION } = require('./constants');
+const { DIRECTION } = require('./constants');
 const { players } = require('./state');
-
-function getRandomInt(max) {
-  const x = Math.floor(Math.random() * max)
-  return x;
-}
+const { removePlayer }  = require('./playerHandler');
 
 const detectPlayerCollision = () => {
+  // if (player.x + player.s == PLAY_AREA_W + 1) {
+  //   player.x--;
+  //   player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
+  // }
+
+  // if (player.x == -1) {
+  //   player.x++;
+  //   player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
+  // }
+
+  // if (player.y + player.s == PLAY_AREA_H + 1) {
+  //   player.y--;
+  //   player.dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
+  // }
+
+  // if (player.y == -1) {
+  //   player.y++;
+  //   player.dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
+  // }
+
   var blocked = players.flatMap(p => p.hist);
-  console.log(blocked);
+  for (var player of players) {
+    for (point of blocked) {
+      if (player.x == point[0] && player.y == point[1] ||
+        player.x + player.s == point[0] && player.y + player.s == point[1]
+      ) {
+        removePlayer(player);
+      }
+    }
+  }
 }
 
 const updatePlayerLocation = (player) => {
-  if (player.x + player.s == PLAY_AREA_W + 1) {
-    player.x--;
-    player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
-  }
-
-  if (player.x == -1) {
-    player.x++;
-    player.dir = getRandomInt(2) == 0 ? DIRECTION.Up : DIRECTION.Down;
-  }
-
-  if (player.y + player.s == PLAY_AREA_H + 1) {
-    player.y--;
-    player.dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
-  }
-
-  if (player.y == -1) {
-    player.y++;
-    player.dir = getRandomInt(2) == 0 ? DIRECTION.Left : DIRECTION.Right;
-  }
+  player.hist.push([player.x, player.y]);
 
   switch(player.dir) {
     case DIRECTION.Up:
@@ -48,8 +54,6 @@ const updatePlayerLocation = (player) => {
     default:
       console.error("Invalid direction on player update.");
   }
-
-  player.hist.push([player.x, player.y]);
 }
 
 module.exports = { updatePlayerLocation, detectPlayerCollision };

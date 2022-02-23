@@ -92,7 +92,7 @@ socket.on('config', (config) => {
 
   const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-  var session = socket.emit('join', { dir, color: randomColor() });
+  var session = socket.emit('join', { color: randomColor() });
 
   socket.on('update_all', (serverPlayers) => {
     players = serverPlayers;

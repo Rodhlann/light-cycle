@@ -10,11 +10,22 @@ const DIRECTION = {
   Right: 'Right'
 };
 
+const STARTING_STATES = [
+  { x: 100, y: 100, dir: DIRECTION.Right},
+  { x: 200, y: 200, dir: DIRECTION.Down},
+  { x: 300, y: 300, dir: DIRECTION.Left},
+  { x: 400, y: 400, dir: DIRECTION.Up},
+  { x: 100, y: 400, dir: DIRECTION.Down}
+];
+
+const USED_STATES = [];
+
 const PLAYER_TEMPLATE = {
   id: undefined,
-  x: 100,
-  y: 100,
+  x: undefined,
+  y: undefined,
   s: 5,
+  dir: undefined,
   color: undefined
 };
 
@@ -24,5 +35,7 @@ module.exports = {
   PLAY_AREA_W,
   PLAY_AREA_H,
   DIRECTION,
-  PLAYER_TEMPLATE
+  PLAYER_TEMPLATE,
+  STARTING_STATES,
+  USED_STATES
 }

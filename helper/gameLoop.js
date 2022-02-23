@@ -2,6 +2,15 @@ const { updatePlayerLocation, detectPlayerCollision } = require('./movement');
 const { TICK_RATE, DEBUG } = require('./constants');
 const state = require('./state');
 
+const gameOver = () => {
+  var gameOver = state.players.length == 0;
+  if (gameOver) {
+    state.started = false;
+    console.log("GAME OVER");
+    return gameOver;
+  }
+}
+
 const fpsArray = [];
 // TODO: figure out why FPS is locked around 30
 const calculateFps = (previous) => {
@@ -27,11 +36,13 @@ let previous = Date.now();
 let tickLengthMs = 1000 / TICK_RATE;
 
 const loop = () => {
+  if (gameOver()) return;
+
   setTimeout(loop, tickLengthMs);
 
   const players = state.players;
+  // detectPlayerCollision();
   for (const player of players) {
-    detectPlayerCollision();
     updatePlayerLocation(player);
   }
   if (players.length) {
