@@ -5,3 +5,5 @@
   [ ] Collision detection....
   [ ] Fix issue where players are no longer controllable separately ? 
 4. Styles?
+  [ ] Tron-ify 
+  [ ] Client side game over animation? 
