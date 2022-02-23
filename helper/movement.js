@@ -1,8 +1,14 @@
 const { PLAY_AREA_H, PLAY_AREA_W, DIRECTION } = require('./constants');
+const { players } = require('./state');
 
 function getRandomInt(max) {
   const x = Math.floor(Math.random() * max)
   return x;
+}
+
+const detectPlayerCollision = () => {
+  var blocked = players.flatMap(p => p.hist);
+  console.log(blocked);
 }
 
 const updatePlayerLocation = (player) => {
@@ -42,6 +48,8 @@ const updatePlayerLocation = (player) => {
     default:
       console.error("Invalid direction on player update.");
   }
+
+  player.hist.push([player.x, player.y]);
 }
 
-module.exports = updatePlayerLocation;
+module.exports = { updatePlayerLocation, detectPlayerCollision };

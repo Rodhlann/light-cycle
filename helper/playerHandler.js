@@ -8,6 +8,7 @@ const newPlayer = (id, dir, color) => {
     x: PLAYER_TEMPLATE.x, 
     y: PLAYER_TEMPLATE.y, 
     s: PLAYER_TEMPLATE.s, 
+    hist: [],
     color};
 
   state.players.push(player);

@@ -1,5 +1,5 @@
 const TICK_RATE = 60;
-
+const DEBUG = true;
 const PLAY_AREA_W = 500;
 const PLAY_AREA_H = 500;
 
@@ -20,6 +20,7 @@ const PLAYER_TEMPLATE = {
 
 module.exports = {
   TICK_RATE,
+  DEBUG,
   PLAY_AREA_W,
   PLAY_AREA_H,
   DIRECTION,

@@ -1,3 +1,44 @@
+/* ---- DEBUG ---- */
+const DEBUG = true;
+var content = '';
+var debugElement;
+
+if (DEBUG) {
+  var appMain = document.getElementsByClassName('app-main')[0];
+  debugElement = document.createElement("div");
+  debugElement.style = 'color: lime';
+  appMain.appendChild(debugElement);
+}
+
+const drawDebugContent = () => {
+  if (debugElement) debugElement.innerHTML = content;
+}
+const resetDebugContent = () => {
+  content = '';
+}
+const addDebugContent = (...strings) => {
+  for(var str of strings) {
+    content += str;
+  }
+}
+
+const fpsArray = [];
+const calculateFps = (fps) => {
+  if (DEBUG) {
+    if (fpsArray.length <= 10) {
+      fpsArray.push(fps);
+    } else {
+      fpsArray.splice(0, 1);
+      fpsArray.push(fps);
+    }
+  
+    var avgFps = fpsArray.reduce((partialSum, a) => partialSum + a, 0) / fpsArray.length;
+  
+    addDebugContent(`<div>FPS: ${parseInt(avgFps)}</div>`);
+  }
+}
+/* ---- END DEBUG ---- */
+
 // server connect
 const socket = io();
 
@@ -42,8 +83,11 @@ socket.on('config', (config) => {
     ctx.clearRect(0, 0, CanvasW, CanvasH);
     for(var player of players) {
       ctx.fillStyle = player.color;
-      ctx.fillRect(player.x, player.y, player.s, player.s);
+      for (var point of player.hist) {
+        ctx.fillRect(point[0], point[1], player.s, player.s);
+      }
     }
+    drawDebugContent();
   }
 
   const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -58,25 +102,33 @@ socket.on('config', (config) => {
   });
 
   /* game loop */
-  const hrtimeMs = () => {
-    let time = Date.now();
-    return time[0] * 1000 + time[1] / 1000000;
-  }
-
   const TICK_RATE = TickRate;
   let tick = 0;
-  let previous = hrtimeMs();
+  let previous = Date.now();
   let tickLengthMs = 1000 / TICK_RATE;
 
   const loop = () => {
-    setTimeout(loop, tickLengthMs);
-    let now = hrtimeMs();
-    
+    resetDebugContent();
+    setTimeout(loop, tickLengthMs);    
+
+    var delta  = (Date.now() - previous)/1000;
+    calculateFps(1/delta);
     draw();
 
-    previous = now;
+    previous = Date.now();
     tick++;
   }
 
   loop();
 });
+
+// NOTE: window.requestAnimationFrame(..) is apparently the "right" way to do
+// a game loop in JS 
+// const gameLoop = () => {
+
+//   ... < logic > ...
+
+//   window.requestAnimationFrame(gameLoop);
+// }
+
+// window.requestAnimationFrame(gameLoop);
