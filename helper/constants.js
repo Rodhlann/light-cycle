@@ -1,4 +1,4 @@
-const TICK_RATE = 60;
+const TICK_RATE = 30;
 const DEBUG = true;
 const PLAY_AREA_W = 500;
 const PLAY_AREA_H = 500;
@@ -24,7 +24,7 @@ const STARTING_STATES = [
   { x: 200, y: 200, dir: DIRECTION.Down},
   { x: 300, y: 300, dir: DIRECTION.Left},
   { x: 400, y: 400, dir: DIRECTION.Up},
-  { x: 100, y: 400, dir: DIRECTION.Down}
+  { x: 100, y: 400, dir: DIRECTION.Right}
 ];
 
 const USED_STATES = [];

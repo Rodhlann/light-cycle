@@ -26,13 +26,13 @@ const calculateFps = (previous) => {
     }
   
     var avgFps = fpsArray.reduce((partialSum, a) => partialSum + a, 0) / fpsArray.length;
-  
-    console.log('FPS: ' + parseInt(avgFps));
+    
+    state.io.emit('debug', avgFps);
   }
 }
 
 let previous = Date.now();
-let tickLengthMs = 1000 / TICK_RATE;
+let tickLengthMs = 500 / TICK_RATE;
 
 const loop = () => {
   const players = state.players;

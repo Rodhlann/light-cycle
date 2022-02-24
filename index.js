@@ -10,7 +10,6 @@ const {
 const loop = require('./helper/gameLoop');
 const state  = require('./helper/state');
 const {
-  TICK_RATE,
   PLAY_AREA_W,
   PLAY_AREA_H,
   DIRECTION
@@ -26,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // listen for new clients (sub)
 io.on('connection', socket => {
-  socket.emit('config', { TICK_RATE, PLAY_AREA_W, PLAY_AREA_H, DIRECTION });
+  socket.emit('config', { PLAY_AREA_W, PLAY_AREA_H, DIRECTION });
 
   socket.on('join', () => {
     const player = newPlayer(socket.id);
