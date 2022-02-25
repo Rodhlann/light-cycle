@@ -1,3 +1,9 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #canvas {
   width: 500;
   height: 500;
@@ -5,6 +11,7 @@
 }
 
 html {
+  font-family: 'Courier New', Courier, monospace;
   background-color: black;
   color: #93EBFC;
 }

@@ -1,7 +1,6 @@
 const { 
   DIRECTION, 
-  PLAY_AREA_W, 
-  PLAY_AREA_H 
+  PLAY_AREA_SIZE 
 } = require('./constants');
 const { players } = require('./state');
 const { removePlayer }  = require('./playerHandler');
@@ -10,9 +9,9 @@ const detectPlayerCollision = () => {
   var blacklist = players.flatMap(p => p.hist);
   for (var player of players) {
     if (
-      player.x + player.s > PLAY_AREA_W || 
+      player.x + player.s > PLAY_AREA_SIZE || 
       player.x < 0 ||
-      player.y + player.s > PLAY_AREA_H ||
+      player.y + player.s > PLAY_AREA_SIZE ||
       player.y < 0
     ) {
       removePlayer(player)

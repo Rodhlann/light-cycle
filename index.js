@@ -10,8 +10,7 @@ const {
 const loop = require('./helper/gameLoop');
 const state  = require('./helper/state');
 const {
-  PLAY_AREA_W,
-  PLAY_AREA_H,
+  PLAY_AREA_SIZE,
   DIRECTION
 } = require('./helper/constants');
 
@@ -23,17 +22,34 @@ state.io = io;
 // Set public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Move to utility file
+var count = 2;
+const countdown = (callback) => {
+  if (count >= 0) {
+    setTimeout(() => {
+      console.log(count + 1);
+      count--;
+      countdown(callback);
+    }, 1000);
+  } else {
+    count = 2;
+    callback();
+  }
+}
+
 // listen for new clients (sub)
 io.on('connection', socket => {
-  socket.emit('config', { PLAY_AREA_W, PLAY_AREA_H, DIRECTION });
+  socket.emit('config', { PLAY_AREA_SIZE, DIRECTION });
 
   socket.on('join', () => {
     const player = newPlayer(socket.id);
     console.log(`New player: ${player.id}`);
 
     if (!state.started) {
-      loop();
-      state.started = true;
+      countdown(() => {
+        loop();
+        state.started = true;
+      });
     }
   });
 

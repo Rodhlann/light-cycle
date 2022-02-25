@@ -7,8 +7,9 @@
         [x] Player Collision
     [x] Fix issue where players are no longer controllable separately ? 
     [ ] Scoring ? 
+    [ ] Start timer and reset functionality 
 [ ] Styles?
     [ ] Figure out how to display current player obviously
-    [ ] Tron-ify 
+    [x] Tron-ify 
     [ ] Client side game over animation? 
     [ ] Modal for start / game over?

@@ -1,7 +1,6 @@
 const TICK_RATE = 30;
 const DEBUG = true;
-const PLAY_AREA_W = 500;
-const PLAY_AREA_H = 500;
+const PLAY_AREA_SIZE = 500;
 
 const DIRECTION = {
   Up: 'Up',
@@ -41,8 +40,7 @@ const PLAYER_TEMPLATE = {
 module.exports = {
   TICK_RATE,
   DEBUG,
-  PLAY_AREA_W,
-  PLAY_AREA_H,
+  PLAY_AREA_SIZE,
   DIRECTION,
   PLAYER_TEMPLATE,
   STARTING_STATES,
