@@ -1,6 +1,7 @@
-const TICK_RATE = 30;
+const TICK_RATE = 5;
 const DEBUG = true;
 const PLAY_AREA_SIZE = 500;
+const COUNTDOWN = 3;
 
 const DIRECTION = {
   Up: 'Up',
@@ -45,5 +46,6 @@ module.exports = {
   PLAYER_TEMPLATE,
   STARTING_STATES,
   USED_STATES,
-  COLORS
+  COLORS,
+  COUNTDOWN
 }

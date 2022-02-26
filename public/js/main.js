@@ -89,6 +89,23 @@ socket.on('config', (config) => {
     }
   }
 
+  socket.on('countdown', serverCountdown => countdown = serverCountdown);
+  
+  var countdown = undefined;
+  const drawCountdown = () => {
+    console.log(countdown);
+    ctx.clearRect(0, 0, CanvasSize, CanvasSize);
+    
+    drawGrid();
+
+    ctx.fillStyle = 'orange';
+    ctx.shadowColor = 'orange';
+    ctx.shadowBlur = 10;
+
+    ctx.font = 'bold 50px courier new';
+    ctx.fillText(countdown, 235, 260);
+  }
+
   const drawGrid = () => {
     // every x pixels fill a pixel
     ctx.fillStyle = '#22373b';
@@ -138,8 +155,11 @@ socket.on('config', (config) => {
     var delta  = (Date.now() - previous)/1000;
     calculateFps(1/delta);
 
-    drawGrid();
-    draw();
+    if (countdown > 0) {
+      drawCountdown();
+    } else {
+      draw();
+    }
 
     setTimeout(loop, tickLengthMs);    
 
@@ -149,7 +169,7 @@ socket.on('config', (config) => {
   loop();
 });
 
-// NOTE: window.requestAnimationFrame(..) is apparently the "right" way to do
+// NOTE: window.requestAnimationFrame(..) is the "right" way to do
 // a game loop in JS 
 // const gameLoop = () => {
 

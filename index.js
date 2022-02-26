@@ -7,7 +7,10 @@ const {
   getPlayer,
   newPlayer,
 } = require('./helper/playerHandler');
-const loop = require('./helper/gameLoop');
+const {
+  countdown,
+  loop 
+}= require('./helper/gameLoop');
 const state  = require('./helper/state');
 const {
   PLAY_AREA_SIZE,
@@ -21,21 +24,6 @@ state.io = io;
 
 // Set public directory
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Move to utility file
-var count = 2;
-const countdown = (callback) => {
-  if (count >= 0) {
-    setTimeout(() => {
-      console.log(count + 1);
-      count--;
-      countdown(callback);
-    }, 1000);
-  } else {
-    count = 2;
-    callback();
-  }
-}
 
 // listen for new clients (sub)
 io.on('connection', socket => {

@@ -1,6 +1,21 @@
 const { updatePlayerLocation, detectPlayerCollision } = require('./movement');
-const { TICK_RATE, DEBUG } = require('./constants');
+const { TICK_RATE, DEBUG, COUNTDOWN } = require('./constants');
 const state = require('./state');
+
+// Move to utility file
+const countdown = (callback) => {
+  if (state.countdown >= 0) {
+    setTimeout(() => {
+      console.log(state.countdown);
+      state.io.emit('countdown', state.countdown);
+      state.countdown--;
+      countdown(callback);
+    }, 1000);
+  } else {
+    state.countdown = COUNTDOWN;
+    callback();
+  }
+}
 
 const gameOver = () => {
   var gameOver = state.players.length == 0;
@@ -51,4 +66,4 @@ const loop = () => {
   previous = Date.now();
 }
 
-module.exports = loop;
+module.exports = { countdown, loop };
