@@ -5,13 +5,10 @@ const socketio = require('socket.io');
 const {
   playerExit,
   getPlayer,
-  newPlayer,
+  addPlayer,
 } = require('./helper/playerHandler');
-const {
-  countdown,
-  loop 
-}= require('./helper/gameLoop');
-const state  = require('./helper/state');
+const loop = require('./helper/gameLoop');
+const state = require('./helper/state');
 const {
   PLAY_AREA_SIZE,
   DIRECTION
@@ -27,17 +24,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // listen for new clients (sub)
 io.on('connection', socket => {
+  // Client connection init
+
+  // Configure client 
   socket.emit('config', { PLAY_AREA_SIZE, DIRECTION });
-
+  
+  state.sessions.push(socket.id);
   socket.on('join', () => {
-    const player = newPlayer(socket.id);
-    console.log(`New player: ${player.id}`);
-
+    console.log(`New player: ${socket.id}`);
     if (!state.started) {
-      countdown(() => {
-        loop();
-        state.started = true;
-      });
+      addPlayer(socket.id);
     }
   });
 
@@ -52,6 +48,10 @@ io.on('connection', socket => {
     }
   });
 });
+
+// Eagerly start loop when server starts
+// TODO: lazily start loop
+loop();
 
 const PORT = process.env.PORT || 3000;
 

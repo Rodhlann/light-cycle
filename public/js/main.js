@@ -49,13 +49,14 @@ const calculateFps = (fps) => {
 const socket = io();
 const TICK_RATE = 60;
 
+// Receive configuration data from server
 socket.on('config', (config) => {
   
   socket.on('debug', (fps) => {
     serverFps = fps;
   });
 
-  if (!config) console.error("Unable to load config from server.");
+  if (!config) console.error("[ERROR] Unable to load config from server.");
   
   const Direction = config.DIRECTION;
   const CanvasSize = config.PLAY_AREA_SIZE;
@@ -83,6 +84,7 @@ socket.on('config', (config) => {
         dir = Direction.Left;
 
       if (dir != lastDir) {
+        // console.log('client dir: ' + dir);
         socket.emit('update', dir);
         lastDir = dir;
       }
@@ -90,10 +92,9 @@ socket.on('config', (config) => {
   }
 
   socket.on('countdown', serverCountdown => countdown = serverCountdown);
-  
+
   var countdown = undefined;
   const drawCountdown = () => {
-    console.log(countdown);
     ctx.clearRect(0, 0, CanvasSize, CanvasSize);
     
     drawGrid();
@@ -123,15 +124,31 @@ socket.on('config', (config) => {
 
     drawGrid();
 
-    // TODO: If no players make game over / game start modal? 
-    for(var player of players) {
-      ctx.fillStyle = player.color;
-      ctx.shadowColor = player.color;
-      ctx.shadowBlur = 12;
-      for (var point of player.hist) {
-        ctx.fillRect(point[0], point[1], player.s, player.s);
+    // TODO: If no players make game over / game start modal?
+    var historyCount = 0;
+    for(var p of players) {
+      if (p == player) {
+        ctx.fillStyle = playerColor;
+        ctx.shadowColor = playerColor;
+      } else {
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
       }
+
+      ctx.shadowBlur = 12;
+
+      // TODO: Think there's a slowdown here...
+      for (var point of p.hist) {
+        ctx.fillRect(point[0], point[1], p.s, p.s);
+      }
+      historyCount += p.hist.length;
+
+      ctx.fillRect(p.x, p.y, p.s, p.s);
     }
+
+    addDebugContent(`<div>History Count: ${parseInt(historyCount)}</div>`)
+    addDebugContent(`<div>Player Count: ${parseInt(players.length)}</div>`);
+
     drawDebugContent();
   }
 
@@ -140,9 +157,8 @@ socket.on('config', (config) => {
   socket.on('update_all', (serverPlayers) => {
     players = serverPlayers;
     player = players.filter(p => p.id == session.id)[0] || {};
-    playerColor = player.color;
-    var updatedDir = player && player.dir;
-    dir = !!updatedDir ? updatedDir : dir;
+    playerColor = '#93EBFC';
+    dir = !!player.dir ? player.dir : dir;
   });
 
   /* game loop */
@@ -161,9 +177,9 @@ socket.on('config', (config) => {
       draw();
     }
 
+    var now = Date.now();
+    previous = now;
     setTimeout(loop, tickLengthMs);    
-
-    previous = Date.now();
   }
 
   loop();

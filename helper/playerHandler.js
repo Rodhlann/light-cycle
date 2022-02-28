@@ -1,12 +1,11 @@
-const state = require('./state');
 const { 
   PLAYER_TEMPLATE ,
   STARTING_STATES,
   COLORS
 } = require('./constants');
-const { players } = require('./state');
+const state = require('./state');
 
-const newPlayer = (id) => {
+const addPlayer = (id) => {
   const startState = STARTING_STATES.splice(
     [Math.floor(Math.random()*STARTING_STATES.length)], 1)[0];
   const color = COLORS[Math.floor(Math.random()*COLORS.length)];
@@ -27,20 +26,26 @@ const newPlayer = (id) => {
   return player;
 }
 
-const removePlayer = (player) => {
-  var index = state.players.findIndex(p => p.id === player.id);
-  var player = players.splice(index, 1)[0];
+const removePlayer = (playerToRemove) => {
+  console.log(`Player ${playerToRemove.id} crashed!`);
+
+  var index = state.players.findIndex(p => p.id === playerToRemove.id);
+  var player = state.players.splice(index, 1)[0];
   if (player) {
     STARTING_STATES.push(player.start);
   }
 }
 
 const playerExit = (id) => {
-    console.log(`Player ${id} has left.`)
-    var player = state.players.filter(player => player.id === id)[0];
-    if (player) { // TODO: If player refreshes / leaves after they lose they won't be in the list
-      removePlayer(player);
-    }
+  // TODO: improve player death / exit logic
+  console.log(`Player ${id} has left.`)
+  var player = state.players.filter(player => player.id === id)[0];
+  var index = state.sessions.findIndex(p => p === id);
+  state.sessions.splice(index, 1)[0];
+
+  if (player) {
+    removePlayer(player);
+  }
 }
 
 const getPlayer = (id) => {
@@ -49,7 +54,7 @@ const getPlayer = (id) => {
 }
 
 module.exports = {
-  newPlayer,
+  addPlayer,
   playerExit,
   removePlayer,
   getPlayer

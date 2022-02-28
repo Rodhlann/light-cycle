@@ -4,7 +4,8 @@ const state = {
   countdown: COUNTDOWN,
   started: false,
   players: [],
-  io: undefined
+  sessions: [],
+  io: {}
 };
 
 module.exports = state;

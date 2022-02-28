@@ -1,15 +1,19 @@
 [x] Figure out Server / Client framerate 
-[ ] Figure out if I can just load game loop logic from server on client connect
+[-] Figure out if I can just load game loop logic from server on client connect
 [ ] Build LightCycle logic 
     [x] Track previous location in Player objects so I don't have to transmit separately?
     [x] Collision detection....
         [x] Wall Collision
         [x] Player Collision
     [x] Fix issue where players are no longer controllable separately ? 
-    [ ] Scoring ? 
-    [ ] Start timer and reset functionality 
+    [ ] Fix issue where sometimes player is not controllable on start ?
+    [ ] Fix memory leak on client side when play lasts awhile
+    [?] Scoring ? 
+    [x] Start timer and reset functionality
+    [x] Fix bug where players traveling perpandicular to eachother can cross paths at the same moment without dying
 [ ] Styles?
     [ ] Figure out how to display current player obviously
+        - Make player color static, randomize enemy colors 
     [x] Tron-ify 
     [ ] Client side game over animation? 
     [ ] Modal for start / game over?
