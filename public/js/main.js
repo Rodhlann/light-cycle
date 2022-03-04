@@ -137,13 +137,22 @@ socket.on('config', (config) => {
 
       ctx.shadowBlur = 12;
 
-      // TODO: Think there's a slowdown here...
-      for (var point of p.hist) {
-        ctx.fillRect(point[0], point[1], p.s, p.s);
-      }
-      historyCount += p.hist.length;
 
-      ctx.fillRect(p.x, p.y, p.s, p.s);
+      for (var i = 0; i < p.hist.length; i++) {
+        var start = p.hist[i];
+        var end = p.hist[i + 1] || [p.x, p.y];
+        // TODO: clean this up? 
+        var w = end[0] > start[0] ? 
+          end[0] - start[0] + p.s || p.s : 
+          end[0] - start[0] || p.s;
+        var h = end[1] > start[1] ? 
+          end[1] - start[1] + p.s || p.s  : 
+          end[1] - start[1] || p.s;
+
+        ctx.fillRect(start[0], start[1], w, h);
+      }
+
+      historyCount += p.hist.length;
     }
 
     addDebugContent(`<div>History Count: ${parseInt(historyCount)}</div>`)

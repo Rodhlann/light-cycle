@@ -13,6 +13,7 @@ const addPlayer = (id) => {
   const player = {
     id,
     dir: startState.dir,
+    lastDir: startState.dir,
     x: startState.x, 
     y: startState.y, 
     s: PLAYER_TEMPLATE.s, 
