@@ -47,7 +47,7 @@ const calculateFps = (previous) => {
 }
 
 let previous = Date.now();
-let tickLengthMs = 500 / TICK_RATE;
+let tickLengthMs = 1000 / TICK_RATE;
 
 const loop = () => {
   // handle play start countdown
@@ -56,6 +56,7 @@ const loop = () => {
     state.io.sockets.emit('update_all', state.players);
   
     calculateFps(previous);
+    console.log(tickLengthMs);
     setTimeout(loop, tickLengthMs);
 
     previous = Date.now();

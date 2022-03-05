@@ -32,18 +32,11 @@ const detectPlayerCollision = (player) => {
       var start = p.hist[i];
       var end = p.hist[i + 1] || [];
 
-      // // Avoid calculating collision on start rect;
-      // if (!end) {
-      //   if (p.dir == DIRECTION.Up) {
-      //     end = [p.x, p.y];
-      //   } else if (p.dir == DIRECTION.Right) {
-      //     end = [p.x + p.s, p.y];
-      //   } else if (p.dir == DIRECTION.Down) {
-      //     end = [p.x, p.y + p.s];
-      //   } else if (p.dir == DIRECTION.Left) {
-      //     end = [p.x - p.s, p.y];
-      //   }
-      // }
+      if (end.length && (end[0] < start[0] || end[1] < start[1])) {
+        var tmp = start;
+        start = end;
+        end = tmp;
+      }
 
       // TODO: clean this up? 
       var w = end[0] > start[0] ? 
@@ -58,7 +51,6 @@ const detectPlayerCollision = (player) => {
     return rects;
   });
   
-  // TODO: issue with negative numbers ? 
   for (point of blacklist) {
     if (
       player.x < point[0] + point[2] &&
