@@ -137,10 +137,19 @@ socket.on('config', (config) => {
 
       ctx.shadowBlur = 12;
 
-
       for (var i = 0; i < p.hist.length; i++) {
+        // TODO: Is it possible to load this logic from the server since it's identical to the collision logic?
+        // TODO: Maybe the rects can be built server side?? 
+      
         var start = p.hist[i];
         var end = p.hist[i + 1] || [p.x, p.y];
+
+        if (end.length && (end[0] < start[0] || end[1] < start[1])) {
+          var tmp = start;
+          start = end;
+          end = tmp;
+        }
+
         // TODO: clean this up? 
         var w = end[0] > start[0] ? 
           end[0] - start[0] + p.s || p.s : 

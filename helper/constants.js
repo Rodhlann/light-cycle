@@ -1,7 +1,7 @@
 const TICK_RATE = 30;
 const DEBUG = true;
 const PLAY_AREA_SIZE = 500;
-const COUNTDOWN = 3;
+const COUNTDOWN = 0;
 
 const DIRECTION = {
   Up: 'Up',
@@ -21,10 +21,10 @@ const COLORS = [
 
 const STARTING_STATES = [
   { x: 100, y: 100, dir: DIRECTION.Right},
-  { x: 200, y: 200, dir: DIRECTION.Down},
+  // { x: 200, y: 200, dir: DIRECTION.Down},
   { x: 300, y: 300, dir: DIRECTION.Up},
-  { x: 400, y: 400, dir: DIRECTION.Up},
-  { x: 100, y: 400, dir: DIRECTION.Right}
+  // { x: 400, y: 400, dir: DIRECTION.Up},
+  // { x: 100, y: 400, dir: DIRECTION.Right}
 ];
 
 const USED_STATES = [];

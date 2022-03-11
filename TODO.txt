@@ -21,10 +21,12 @@
         - Register and check collision by line instead of by pixel 
     [ ] Fix issue where sometimes player is not controllable on start ?
         - Happens often when player is moving UP 
-    [ ] Fix issue where start pixel doesn't appear to be drawn 
+    [x] Fix issue where start pixel doesn't appear to be drawn 
         - e.g. [100,400],[400,400] start causes unexpected collision
     [ ] Fix bug where sometimes session doesn't get reset properly 
         - e.g. multiple players but one client running
+        - This seems to happen most when debugging frequently
 [ ] Improvements
+    [x] Calculate rectangles instead of individual grid cells for collision detection and drawing
     [x] Figure out Server / Client framerate 
     [-] Figure out if I can just load game loop logic from server on client connect

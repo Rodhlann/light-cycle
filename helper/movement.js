@@ -32,7 +32,19 @@ const detectPlayerCollision = (player) => {
       var start = p.hist[i];
       var end = p.hist[i + 1] || [];
 
-      if (end.length && (end[0] < start[0] || end[1] < start[1])) {
+      // TODO: issue with registering first rectangle ? 
+      // if (!end) {
+      //   if (p.dir == DIRECTION.Left) 
+      //     end = [p.x + p.s, p.y]
+      //   if (p.dir == DIRECTION.Right) 
+      //     end = [p.x - p.s, p.y]
+      //   if (p.dir == DIRECTION.Up) 
+      //     end = [p.x, p.y + p.s]
+      //   if (p.dir == DIRECTION.Down) 
+      //     end = [p.x, p.y - p.s]
+      // }
+
+      if (end[0] < start[0] || end[1] < start[1]) {
         var tmp = start;
         start = end;
         end = tmp;

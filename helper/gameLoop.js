@@ -1,4 +1,4 @@
-const { updatePlayerLocation, detectPlayerCollision } = require('./movement');
+const { updatePlayerLocation } = require('./movement');
 const { TICK_RATE, DEBUG, COUNTDOWN } = require('./constants');
 const state = require('./state');
 const { addPlayer } = require('./playerHandler');
@@ -17,17 +17,8 @@ const handleCountdown = (callback) => {
   }
 }
 
-// const gameOver = () => {
-//   var gameOver = state.players.length == 0;
-//   if (gameOver) {
-//     state.started = false;
-//     console.log("GAME OVER");
-//     return gameOver;
-//   }
-// }
-
 const fpsArray = [];
-// TODO: figure out why FPS is locked around 30
+
 const calculateFps = (previous) => {
   if (DEBUG) {
     var delta = (Date.now() - previous)/1000;
@@ -56,7 +47,6 @@ const loop = () => {
     state.io.sockets.emit('update_all', state.players);
   
     calculateFps(previous);
-    console.log(tickLengthMs);
     setTimeout(loop, tickLengthMs);
 
     previous = Date.now();
@@ -69,14 +59,13 @@ const loop = () => {
     console.log("GAME OVER");
     // TODO: create restart game function
     if (state.sessions.length) {
-      var restartMsg = state.sessions.reduce((p, c) => p += `\n\t${c},`, 'New session with players: [');
-      console.log(restartMsg + '\n]');
+      var restartMsg = state.sessions.reduce((p, c) => p += `${c},`, 'New session with players: [');
+      console.log(restartMsg + ']');
       state.sessions.forEach(s => addPlayer(s));
     }
     state.started = false;
     setTimeout(loop, tickLengthMs);
   } else if (!state.players.length && !state.started) {
-    // console.log('Waiting for players');
     setTimeout(loop, tickLengthMs);
   }
 }
